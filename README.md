@@ -1,9 +1,14 @@
 #include <stdio.h>
+
 #include <stdlib.h>
 
 #include <windows.h>
+
 #include <mmsystem.h>
+
 #pragma comment(lib,"Winmm.lib")
+
+#define MAX 6
 
 int emperor()
 
@@ -12,9 +17,10 @@ int emperor()
     
     int choice;
     int i;
+    char tempName[20];被翻牌人的临时变量
     
     int count=5;//当前未打入冷宫嫔妃人数
-    
+  
     //姓名数组，最多容纳六个字符，每个字符串的长度为8个字符（英文）
     char names[MAX][20] = {"西  施","貂  蝉","王昭君","杨玉环","赵飞燕"};
     
@@ -69,8 +75,32 @@ int emperor()
         }
 
         break;
-    case 2:
-        printf("2.翻牌宠幸；\t\t（修改状态功能）\n");
+    case 2://翻牌宠幸；\t\t（修改状态功能）
+            //1.找到所翻牌的索引值
+            //2.被翻牌的人状态修改：好感度+10，级别+1，同时其他人好感度-10
+            //3.前提要求级别没有达到最高，否则保持级别不变
+            //存在一个Bug需要修复，就是当输入的人tempName无效时，应该有相应处理
+
+            //输入被翻牌的人
+            printf("请陛下翻牌！\n");
+            scanf("%s",tempName);
+
+            for(i=0;i<count;i++)
+            {
+                //判断输入的名字是否和存在的人一样
+                if(strcmp(tempName,names[i]) == 0)
+                {
+                   loves[i] += 10;
+                   //如果当前级别已经最高，那就保持不变，否则级别+1
+                   levels[i] = levels[i] > 4 ? 4 : levels[i] + 1;
+                }
+                else
+                {
+                    //其他人的好感度都 -10
+                    loves[i] -= 10;
+                }
+
+            }
         break;
     case 3:
         printf("3.打入冷宫；\t\t（删除功能）\n");
