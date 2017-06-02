@@ -16,8 +16,8 @@ int emperor()
     
     char emperorName[50]; //用来存放用户输入的皇帝名号
     int choice;
-    int i;
-    
+    int i, j,temp;
+    
     char tempName[20];被翻牌人的临时变量
     
     int count=5;//当前未打入冷宫嫔妃人数
@@ -164,12 +164,44 @@ int emperor()
         
         
         break;
-    case 4:
-        printf("4.单独召见去小树林；\n");
+    case 4://单独召见去小树林
+            //1.查找，找出索引
+            //2.增加好感度
+            //3.用数组设计诗歌，随机产生表达皇帝文采
+            printf("陛下要召见的是娘娘是：\n");
+            scanf("%s",tempName);
+            printf("***************************\n");
+       
         break;
     default:
         printf("君无戏言，请陛下再次确认！");
     }
+
+
+    //最后打印妃子状态前，根据级别排序
+
+    for(i=0;i<count-1;i++)
+    {
+        for(j=0;j<count-i-1;j++)
+        {
+            if(levels[j] < levels[j+1])
+            {
+                //姓名，级别，好感度三者都要交换
+                temp = levels[j];
+                levels[j] = levels[j+1];
+                levels[j+1] = temp;
+
+                temp = loves[j];
+                loves[j] = levels[j+1];
+                loves[j+1] = temp;
+
+                strcpy(tempName,names[i]);
+                strcpy(names[i],names[i+1]);
+                strcpy(names[i+1],tempName);
+         }
+        }
+    }
+
 
 
     printf("测试：查看当前嫔妃状态\n");
