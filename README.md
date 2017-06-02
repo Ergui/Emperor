@@ -13,14 +13,17 @@
 int emperor()
 
 {
-    char emperorName[50]; //用来存放用户输入的皇帝名号
     
+    char emperorName[50]; //用来存放用户输入的皇帝名号
     int choice;
     int i;
-    char tempName[20];被翻牌人的临时变量
+    
+    char tempName[20];被翻牌人的临时变量
     
     int count=5;//当前未打入冷宫嫔妃人数
-  
+    
+    int deleNameIndex = -1;//打入冷宫的娘娘的名讳索引
+    
     //姓名数组，最多容纳六个字符，每个字符串的长度为8个字符（英文）
     char names[MAX][20] = {"西  施","貂  蝉","王昭君","杨玉环","赵飞燕"};
     
@@ -85,6 +88,21 @@ int emperor()
             printf("请陛下翻牌！\n");
             scanf("%s",tempName);
 
+            //检查输入的tempName是否是已存在
+            for(i=0;i<count;i++)
+                {
+                    //如果不等于请继续输入
+                    if(strcmp(tempName,names[i]) != 0 )
+                        {
+                            printf("陛下，您后宫中没有这位娘娘！请您重新翻。\n");
+                            printf("###########################\n");
+                            printf("陛下请翻牌：\n");
+                            scanf("%s",tempName);
+                            printf("***************************\n");
+                        }
+                            break;
+                }
+            
             for(i=0;i<count;i++)
             {
                 //判断输入的名字是否和存在的人一样
@@ -102,8 +120,49 @@ int emperor()
 
             }
         break;
-    case 3:
-        printf("3.打入冷宫；\t\t（删除功能）\n");
+        
+    case 3://打入冷宫；\t\t（删除功能）
+            //1.查找索引
+            //2.后面一个赋值给前一个
+            //3.数组总数减一
+            //4,其他妃子好感度+10
+            printf("请输入要打入冷宫的娘娘的名讳:\n");
+            scanf("%s",tempName);
+
+            for(i=0;i<count;i++)
+            {
+                //比价字符串是否相等
+                if(strcmp(tempName,names[i]) == 0)
+                {
+                    printf("%s娘娘已经被打入冷宫\n",tempName);
+                    deleNameIndex = i;
+                    break;
+                }
+            }
+            if(deleNameIndex == -1)
+            {
+                printf("陛下，后宫中没有这位娘娘！\n");
+            }else
+            {
+                for(i=deleNameIndex;i<count-1;i++)
+                {
+                    //字符串在c语言中不能直接赋值
+                    //所以需要使用字符串的strcpy
+                    strcpy(names[i],names[i+1]);
+                    strcpy(loves[i],loves[i+1]);
+                    strcpy(levels[i],levels[i+1]);
+                }
+            }
+            count --;
+            
+            //剩余妃子的好感度升值
+            for(i=0;i<count;i++)
+            {
+                loves[i] += 10;
+            }
+
+        
+        
         break;
     case 4:
         printf("4.单独召见去小树林；\n");
@@ -129,6 +188,7 @@ int emperor()
 
 
 return 0;
+
 }
 
 
@@ -155,8 +215,10 @@ return 0;
 
 
 int main()
-{
-emperor();
 
-return 0;
+{
+    
+    emperor();
+
+    return 0;
 }
