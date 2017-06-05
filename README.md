@@ -18,7 +18,7 @@ int emperor()
     int choice;
     int i, j,temp;
     
-    char tempName[20];被翻牌人的临时变量
+    char tempName[20];//被翻牌人的临时变量
     
     int count=5;//当前未打入冷宫嫔妃人数
     
@@ -149,8 +149,8 @@ int emperor()
                     //字符串在c语言中不能直接赋值
                     //所以需要使用字符串的strcpy
                     strcpy(names[i],names[i+1]);
-                    strcpy(loves[i],loves[i+1]);
-                    strcpy(levels[i],levels[i+1]);
+                    loves[i] = loves[i+1];
+                    levels[i] = levels[i+1];
                 }
             }
             count --;
