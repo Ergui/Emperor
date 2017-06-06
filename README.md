@@ -85,22 +85,19 @@ int emperor()
             //存在一个Bug需要修复，就是当输入的人tempName无效时，应该有相应处理
 
             //输入被翻牌的人
-            printf("请陛下翻牌！\n");
-            scanf("%s",tempName);
+           PF:printf("陛下请翻牌：");
+              scanf("%s",tempName);
 
-            //检查输入的tempName是否是已存在
             for(i=0;i<count;i++)
                 {
                     //如果不等于请继续输入
-                    if(strcmp(tempName,names[i]) != 0 )
+                    if(strcmp(tempName,names[i]) == 0)
                         {
-                            printf("陛下，您后宫中没有这位娘娘！请您重新翻。\n");
-                            printf("###########################\n");
-                            printf("陛下请翻牌：\n");
-                            scanf("%s",tempName);
-                            printf("***************************\n");
+                          break;
+                        }else
+                        {
+                          goto PF;
                         }
-                            break;
                 }
             
             for(i=0;i<count;i++)
@@ -168,10 +165,21 @@ int emperor()
             //1.查找，找出索引
             //2.增加好感度
             //3.用数组设计诗歌，随机产生表达皇帝文采
-            printf("陛下要召见的是娘娘是：\n");
+            printf("陛下要哪位娘娘陪你散散步：");
             scanf("%s",tempName);
-            printf("***************************\n");
-       
+
+
+            for(i=0;i<count;i++){
+                    //判断输入的名字是否和存在的人一样
+                    if(strcmp(tempName,names[i]) == 0)
+                        {
+                            printf("%s娘娘，陛下诏您到御花园赏花！\n",tempName);
+                            loves[i] += 10;
+                            //如果当前级别已经最高，那就保持不变，否则级别+1
+                            levels[i] = levels[i] > 4 ? 4 : levels[i] + 1;
+                       }
+
+               }
         break;
     default:
         printf("君无戏言，请陛下再次确认！");
@@ -195,9 +203,9 @@ int emperor()
                 loves[j] = levels[j+1];
                 loves[j+1] = temp;
 
-                strcpy(tempName,names[i]);
-                strcpy(names[i],names[i+1]);
-                strcpy(names[i+1],tempName);
+                strcpy(tempName,names[j]);
+                strcpy(names[j],names[j+1]);
+                strcpy(names[j+1],tempName);
          }
         }
     }
@@ -222,29 +230,6 @@ int emperor()
 return 0;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int main()
 
